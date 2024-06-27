@@ -9,6 +9,7 @@ import pprint
 from openpyxl import load_workbook
 from datetime import datetime
 from openpyxl import Workbook
+from pandas import ExcelWriter, DataFrame
 
 EXCEL_COLUMNS = {'offers': 'ID', 'lastPublicated': 'Opublikowane', 'companyName': 'Firma', 'jobTitle': 'Stanowisko',
                   'salaryDisplayText': 'Stawka', 'positionLevels': 'Poziom',
@@ -67,6 +68,18 @@ def adjust_column_width(workbook: Workbook, file_path: str):
         worksheet.column_dimensions[column_letter].width = max_length + 1
     workbook.save(file_path)
     workbook.close()
+
+
+def format_or_create_excel_table(writer: ExcelWriter, df: pd.DataFrame):
+    workbook = writer.book
+    worksheet = writer.sheets['Sheet1']
+    (max_row, max_col) = df.shape
+    column_settings = []
+    for header in df.columns:
+        column_settings.append({'header': header})
+    worksheet.add_table(0, 0, max_row, max_col - 1, {'columns': column_settings})
+    writer.close()
+
 
 
 def insert_rows_with_data(file_path, sheet_name, start_row, num_rows, data):
@@ -133,6 +146,16 @@ def save_new_data(file_path: str, data: list):
     print(f"Succesfully saved {len(data_to_pass)} new rows!")
 
 
+def new_excel_file_save(parsed_data: list, file_path: str):
+    pass
+    df = pd.DataFrame(parsed_data)
+    df.rename(columns=EXCEL_COLUMNS, inplace=True)
+    writer = pd.ExcelWriter(file_path, engine='xlsxwriter')
+    df.to_excel(writer, sheet_name="Sheet1", startrow=1, header=False, index=False)
+    format_or_create_excel_table(writer, df)
+
+
+
 def main():
     # Getting data
     data_from_site = scrap_data()
@@ -154,10 +177,7 @@ def main():
             print("New data saved successfully!")
         else:
             pass
-            df = pd.DataFrame(parsed_data)
-            df.rename(columns=EXCEL_COLUMNS, inplace=True)
-            df.to_excel(file_path, index=False, sheet_name=SHEET_NAME,
-                        columns=list(EXCEL_COLUMNS.values()))
+            new_excel_file_save(parsed_data, file_path)
             print("Data saved successfully!")
     except Exception as e:
         print(f"Error: {e}")
