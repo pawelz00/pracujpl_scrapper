@@ -13,5 +13,11 @@ def scrap_data() -> str:
         return ""
 
 
+def main():
+    pass
+    data = scrap_data()
+    print(data)
+
+
 if __name__ == '__main__':
-    scrap_data()
+    main()
