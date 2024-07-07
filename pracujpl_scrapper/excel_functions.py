@@ -2,6 +2,9 @@ import pandas as pd
 from openpyxl.reader.excel import load_workbook
 from openpyxl.workbook import Workbook
 from openpyxl.writer.excel import ExcelWriter
+
+from pracujpl_scrapper.helpers import object_with_id_exists, format_list
+
 EXCEL_COLUMNS = {'offers': 'ID', 'lastPublicated': 'Opublikowane', 'companyName': 'Firma', 'jobTitle': 'Stanowisko',
                  'salaryDisplayText': 'Stawka', 'positionLevels': 'Poziom',
                  'url': 'Link'}
@@ -28,8 +31,7 @@ def adjust_column_width(workbook: Workbook, file_path: str) -> None:
 
 
 def format_or_create_excel_table(writer: ExcelWriter, df: pd.DataFrame) -> None:
-    workbook = writer.book
-    worksheet = writer.sheets['Sheet1']
+    worksheet = writer.sheets['Oferty pracy']
     (max_row, max_col) = df.shape
     column_settings = []
     for header in df.columns:
@@ -39,39 +41,19 @@ def format_or_create_excel_table(writer: ExcelWriter, df: pd.DataFrame) -> None:
 
 
 def insert_rows_with_data(file_path, sheet_name, start_row, num_rows, data) -> None:
-    # Load the workbook
     wb = load_workbook(filename=file_path)
-
-    # Select the worksheet
     ws = wb[sheet_name]
-
-    # Shift existing rows downwards
     ws.insert_rows(start_row, amount=num_rows)
 
-    # Write data into the newly inserted rows
     for row_index, row_data in enumerate(data, start=start_row):
         for col_index, cell_value in enumerate(row_data, start=1):
             ws.cell(row=row_index, column=col_index, value=cell_value)
 
-    # Save the workbook
     wb.save(file_path)
 
 
 def save_new_data(file_path: str, data: list) -> None:
     pass
-
-    def object_with_id_exists(objects, target_id: str, id_key: str):
-        if len(objects) == 0:
-            return False
-        del objects[0]
-        return any(obj for obj in objects if int(obj[id_key]) == int(target_id))
-
-    def format_list(json_list, property_order):
-        reordered_list = []
-        for obj in json_list:
-            reordered_obj = {key: obj[key] for key in property_order if key in obj}
-            reordered_list.append([reordered_obj[key] for key in property_order])
-        return reordered_list
 
     workbook = load_workbook(file_path)
     worksheet = workbook.active
@@ -105,5 +87,5 @@ def new_excel_file_save(parsed_data: list, file_path: str) -> None:
     df = pd.DataFrame(parsed_data)
     df.rename(columns=EXCEL_COLUMNS, inplace=True)
     writer = pd.ExcelWriter(file_path, engine='xlsxwriter')
-    df.to_excel(writer, sheet_name="Sheet1", startrow=1, header=False, index=False)
+    df.to_excel(writer, sheet_name="Oferty pracy", startrow=1, header=False, index=False)
     format_or_create_excel_table(writer, df)
