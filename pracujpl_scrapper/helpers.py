@@ -1,7 +1,6 @@
 def object_with_id_exists(objects: list, target_id: str, id_key: str) -> bool:
     if len(objects) == 0:
         return False
-    del objects[0]
     return any(obj for obj in objects if int(obj[id_key]) == int(target_id))
 
 

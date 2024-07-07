@@ -1,8 +1,8 @@
 import os
-from openpyxl import load_workbook
+
+from pracujpl_scrapper.data_parser import parse_data
 from pracujpl_scrapper.excel_functions import save_new_data, new_excel_file_save, adjust_column_width
 from pracujpl_scrapper.scrapper import scrap_data
-from pracujpl_scrapper.data_parser import parse_data
 
 
 def main():
@@ -19,11 +19,14 @@ def main():
     file_path = os.path.join(folder_path, excel_file_name)
     file_exists = os.path.exists(file_path)
 
-    # Saving data to excel file
     try:
         if file_exists:
             pass
-            save_new_data(file_path, parsed_data)
+            res = save_new_data(file_path, parsed_data)
+
+            if not res:
+                return
+
             print("New data saved successfully!")
         else:
             pass
@@ -33,9 +36,7 @@ def main():
         print(f"Error: {e}")
         return
 
-    # Adjusting column width
-    workbook = load_workbook(file_path)
-    adjust_column_width(workbook, file_path)
+    adjust_column_width(file_path)
 
     return 0
 
