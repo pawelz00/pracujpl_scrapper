@@ -1,11 +1,8 @@
 import json
 import re
 
+from config import PROPERTIES_TO_KEEP_IN_EXCEL_FILE, SKIP_COMPANIES
 from helpers import truncate_string
-
-PROPERTIES_TO_KEEP_IN_EXCEL_FILE = ['offers', 'lastPublicated', 'jobTitle', 'companyName',
-                                    'salaryDisplayText', 'positionLevels']
-SKIP_COMPANIES = ['MindPal']
 
 
 def parse_data(data: str) -> list:
