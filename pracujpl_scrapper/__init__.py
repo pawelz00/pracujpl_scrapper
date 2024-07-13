@@ -1,7 +1,8 @@
 import os
 
 from pracujpl_scrapper.data_parser import parse_data
-from pracujpl_scrapper.excel_functions import save_new_data, new_excel_file_save, adjust_column_width
+from pracujpl_scrapper.excel_functions import save_new_data, new_excel_file_save, adjust_column_width, \
+    apply_row_color_pattern
 from pracujpl_scrapper.scrapper import scrap_data
 
 
@@ -31,6 +32,7 @@ def main():
         else:
             pass
             new_excel_file_save(parsed_data, file_path)
+            apply_row_color_pattern(file_path)
             print("Data saved successfully!")
     except Exception as e:
         print(f"Error: {e}")
