@@ -27,8 +27,8 @@ def parse_data(data: str) -> list:
             '[', '').replace(']', '').replace("'", '')
         item['url'] = item['offers'][0]['offerAbsoluteUri']
         item['offers'] = item['offers'][0]['partitionId']
-        item['jobTitle'] = truncate_string(str(item['jobTitle']), 20).upper() + '...' if len(
-            str(item['jobTitle'])) >= 20 else str(item['jobTitle']).upper()
+        item['jobTitle'] = truncate_string(str(item['jobTitle']), 30).upper() + '...' if len(
+            str(item['jobTitle'])) >= 30 else str(item['jobTitle']).upper()
         item['companyName'] = truncate_string(str(item['companyName']), 15).upper() + '...' if len(
             str(item['companyName'])) >= 15 else str(item['companyName']).upper()
 
