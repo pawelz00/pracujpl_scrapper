@@ -81,6 +81,7 @@ def save_new_data(file_path: str, data: list) -> None or bool:
 
 def new_excel_file_save(parsed_data: list, file_path: str) -> None:
     pass
+    
     df = pd.DataFrame(parsed_data)
     df.rename(columns=EXCEL_COLUMNS, inplace=True)
 
