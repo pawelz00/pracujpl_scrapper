@@ -1,12 +1,8 @@
 import pandas as pd
 from openpyxl.reader.excel import load_workbook
 
+from config import EXCEL_COLUMNS, SHEET_NAME
 from pracujpl_scrapper.helpers import format_list
-
-EXCEL_COLUMNS = {'offers': 'ID', 'lastPublicated': 'Opublikowane', 'companyName': 'Firma', 'jobTitle': 'Stanowisko',
-                 'salaryDisplayText': 'Stawka', 'positionLevels': 'Poziom',
-                 'url': 'Link'}
-SHEET_NAME = 'Oferty pracy'
 
 
 def adjust_column_width(file_path: str) -> None:
@@ -85,6 +81,7 @@ def save_new_data(file_path: str, data: list) -> None or bool:
 
 def new_excel_file_save(parsed_data: list, file_path: str) -> None:
     pass
+    
     df = pd.DataFrame(parsed_data)
     df.rename(columns=EXCEL_COLUMNS, inplace=True)
 

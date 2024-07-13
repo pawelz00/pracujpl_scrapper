@@ -1,3 +1,6 @@
+from typing import Any
+
+
 def object_with_id_exists(objects: list, target_id: str, id_key: str) -> bool:
     if len(objects) == 0:
         return False
@@ -14,3 +17,9 @@ def format_list(json_list: list, property_order: list) -> list:
 
 def truncate_string(input_string: str, length: int) -> str:
     return input_string[:length]
+
+
+def insert_at_first_position(d: dict, key: str, value: Any) -> dict:
+    new_dict: dict = {key: value}
+    new_dict.update(d)
+    return new_dict
