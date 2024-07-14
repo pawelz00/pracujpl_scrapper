@@ -32,12 +32,12 @@ def main():
         else:
             pass
             new_excel_file_save(parsed_data, file_path)
-            apply_row_color_pattern(file_path)
             print("Data saved successfully!")
     except Exception as e:
         print(f"Error: {e}")
         return
 
+    apply_row_color_pattern(file_path)
     adjust_column_width(file_path)
 
     return 0

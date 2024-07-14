@@ -67,8 +67,8 @@ def save_new_data(file_path: str, data: list) -> None or bool:
 
     workbook = load_workbook(file_path)
     worksheet = workbook.active
-    ids_in_excel = set([int(column[0].value) for column in worksheet if
-                        column[0].value is not None and column[0].value != 'ID'])
+    ids_in_excel = set([int(column[1].value) for column in worksheet if
+                        column[1].value is not None and column[1].value != 'ID'])
     ids_in_data = set([int(obj['offers']) for obj in data])
     ids_to_retain = ids_in_data.difference(ids_in_excel)
 
