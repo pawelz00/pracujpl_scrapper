@@ -1,8 +1,24 @@
 import pandas as pd
+from openpyxl.formatting.rule import Rule
 from openpyxl.reader.excel import load_workbook
+from openpyxl.styles import PatternFill
+from openpyxl.styles.differential import DifferentialStyle
 
 from config import EXCEL_COLUMNS, SHEET_NAME
 from pracujpl_scrapper.helpers import format_list
+
+
+def apply_row_color_pattern(file_path: str) -> None:
+    workbook = load_workbook(file_path)
+    worksheet = workbook.active
+
+    dxf = DifferentialStyle(fill=PatternFill(bgColor="f4cd7a"))
+    r = Rule(type="expression", dxf=dxf, stopIfTrue=True)
+    r.formula = ['$A1="Tak"']
+    worksheet.conditional_formatting.add(f"A1:H{worksheet.max_row}", r)
+
+    workbook.save(file_path)
+    workbook.close()
 
 
 def adjust_column_width(file_path: str) -> None:
@@ -81,7 +97,7 @@ def save_new_data(file_path: str, data: list) -> None or bool:
 
 def new_excel_file_save(parsed_data: list, file_path: str) -> None:
     pass
-    
+
     df = pd.DataFrame(parsed_data)
     df.rename(columns=EXCEL_COLUMNS, inplace=True)
 
