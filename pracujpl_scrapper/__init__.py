@@ -9,7 +9,7 @@ from pracujpl_scrapper.scrapper import scrap_data
 def main():
     data_from_site = scrap_data()
 
-    if data_from_site == "":
+    if len(data_from_site) == 0:
         return "Error: No data from site!"
 
     parsed_data = parse_data(data_from_site)
