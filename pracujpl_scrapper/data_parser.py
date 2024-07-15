@@ -1,18 +1,11 @@
-import json
-import re
-
 from config import PROPERTIES_TO_KEEP_IN_EXCEL_FILE, SKIP_COMPANIES
 from helpers import truncate_string, insert_at_first_position
 
 
-def parse_data(data: str) -> list:
+def parse_data(data: list) -> list:
     pass
-    regex_pattern = r'<script\s+id="__NEXT_DATA__"\s+type="application/json">(.*?)</script>'
-    match = re.search(regex_pattern, data)
-    not_filtered_data = json.loads(match.group(1))[
-        'props']['pageProps']['data']['jobOffers']['groupedOffers']
 
-    not_filtered_data = [insert_at_first_position(d, 'applied', 'Nie') for i, d in enumerate(not_filtered_data)]
+    not_filtered_data = [insert_at_first_position(d, 'applied', 'Nie') for i, d in enumerate(data)]
 
     filtered_data = [{key: offer[key] for key in PROPERTIES_TO_KEEP_IN_EXCEL_FILE}
                      for offer in not_filtered_data]
