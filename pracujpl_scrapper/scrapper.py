@@ -16,8 +16,8 @@ def scrap_data() -> list:
 
         while True:
             if first_request is False:
-                print("Waiting 5 seconds before next request...")
-                time.sleep(5)
+                print("Waiting 2 seconds before next request...")
+                time.sleep(2)
 
             response = requests.get(f"{BASE_URL}&pn={page_number}", headers={'User-Agent': WEB_AGENT})
             regex_pattern = r'<script\s+id="__NEXT_DATA__"\s+type="application/json">(.*?)</script>'
@@ -29,9 +29,9 @@ def scrap_data() -> list:
                 break
 
             data.extend(array_data)
-            page_number += 1
             first_request = False
             print(f"Page {page_number} scrapped successfully!")
+            page_number += 1
 
         print("Data scrapped successfully!")
         return data
