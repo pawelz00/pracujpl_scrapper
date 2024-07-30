@@ -16,4 +16,4 @@ PROPERTIES_TO_KEEP_IN_EXCEL_FILE = ['applied', 'offers', 'lastPublicated', 'jobT
                                     'salaryDisplayText', 'positionLevels']
 
 # Companies to not include in Excel file
-SKIP_COMPANIES = ['MindPal']
+SKIP_COMPANIES = ['MindPal', 'INNPRO ROBERT BŁĘDOWSKI sp. z o.o.']
